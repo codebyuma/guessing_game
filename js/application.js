@@ -41,7 +41,7 @@ $( document ).ready(function() {
             // then prompt the user to enter another number. This won't count as a try, so the number of remaining guesses will stay the same
             if (guesses.length>0 && (guesses.indexOf(currentGuess)!=-1)){
               hint = "You already tried that number. Try again."
-              hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2);
+              hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2); // slice to drop the trailing comma
               updateHelpBlock();
 
             } else { // if this is a unique guess
@@ -115,12 +115,12 @@ $( document ).ready(function() {
                 $('.guess').prop("disabled", true);
               }
 
-              previousGuesses+= guesses[guesses.length-1] +", ";
+              previousGuesses+= currentGuess +", ";
 
               // if there are previous guesses and the user is not out of guesses, then display the previous guesses.
               if (guessesLeft!=0) {
                   hint += tempHint;
-                  hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2);
+                  hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2); // slice to drop the trailing comma
               }
 
               console.log (hint + "You have " + guessesLeft + " guesse(s) left.");
