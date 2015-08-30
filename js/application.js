@@ -9,7 +9,7 @@ $( document ).ready(function() {
  var currentGuess;
  var guesses = []; // array to store user guesses
  var guessDifference; // current difference between the number and the user's guess
- var differences = []; // array to store user guess differences
+ var previousDifference = null; // used to store the previous difference to provide a hint on whether the guesses are getting hotter or colder
  var hint ="";
  var guessesLeft=5;
  var previousGuesses=""; // string of user gusses
@@ -63,11 +63,11 @@ $( document ).ready(function() {
 
               // calculate the difference between the guess and the number, and add it to the differencees array for future reference
               guessDifference = Math.abs(currentGuess - number);
-              differences.push(guessDifference);
+              //differences.push(guessDifference);
 
-              if (differences.length>1){ // if this is not the first guess, we need to indicate if the user's guesses are getting hotter or colder
+              if (previousDifference!=null){ // if this is not the first guess, we need to indicate if the user's guesses are getting hotter or colder
                  // if the current guess difference is less than or equal to the previous guess difference, then the user is getting hotter
-                 if (guessDifference<=differences[differences.length-2]){
+                 if (guessDifference<=previousDifference){
                     tempHint+="<br> Based on your last guess, you are getting hotter.";
                  } else { // if the difference is more than the previous, then the user is getting colder. 
                     tempHint+="<br> Based on your last guess, you are getting colder. ";
@@ -78,9 +78,6 @@ $( document ).ready(function() {
               // if the guessDifference is less than or equal to 10, then indicate that the user is hot.
               if (guessDifference <=10){
                 hint+="You are hot. "; 
-                if (differences.length>1){ // if this is not the first guess, add the tempHint to display
-                 // hint+= tempHint;
-                }
               }
               else if (guessDifference < 20){
                 hint+="You are warm. "
@@ -90,9 +87,6 @@ $( document ).ready(function() {
               }
               else{ // if the guessDifference is more than 10, then indicate that the user is cold.
                 hint+="You are ice cold. ";
-                if (differences.length>1){
-                  //hint+= tempHint;
-                }
               }
 
               // if the currentGuess is less than the number, instruct the user to guess higher
@@ -115,6 +109,7 @@ $( document ).ready(function() {
                 $('.guess').prop("disabled", true);
               }
 
+              previousDifference=guessDifference;
               previousGuesses+= currentGuess +", ";
 
               // if there are previous guesses and the user is not out of guesses, then display the previous guesses.
@@ -150,7 +145,7 @@ $( document ).ready(function() {
     $('.guess').prop("disabled", false);
     number = Math.floor((Math.random() * 100) + 1);
     guesses = [];
-    differences = [];
+    previousDifference = null;
     guessesLeft=5;
     previousGuesses="";
     $('#userGuess').val("1-100");
