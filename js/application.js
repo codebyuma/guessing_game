@@ -1,29 +1,26 @@
 
-// if the guess is off by 10 or less, it's hot
-// if the guess is off by more than 11, it's cold
-
-
 $( document ).ready(function() {
  
- var number = Math.floor((Math.random() * 100) + 1);
- var currentGuess;
- var guesses = []; // array to store user guesses
+  var number = Math.floor((Math.random() * 100) + 1); // this is the number the user needs to guess
+ var guessesLeft=5; // counter of guesses - user gets 5 guesses
+ var currentGuess; // user's current guess
+ var guesses = []; // array to store user guesses for comparison purposes
+ var previousGuesses=""; // string of user guesses for display purposes
  var guessDifference; // current difference between the number and the user's guess
  var previousDifference = null; // used to store the previous difference to provide a hint on whether the guesses are getting hotter or colder
- var hint ="";
- var guessesLeft=5;
- var previousGuesses=""; // string of user gusses
- var tempHint="";
+ var hint =""; // string to be used for display in the help-block area
+ var progressHint=""; // part of the string that will be added to hint for display in the help-block area
 
- console.log(number);
 
+// function used to update the help-block area of the game board with hints, progress, previous guesses, etc.
  var updateHelpBlock = function (){
     $('.help-block').html(hint);
     hint="";
-    tempHint="";
+    progressHint="";
  }
 
-
+// eventHandler for the Guess button
+// when the user hits the submit button, process the guess and provide tips as necessary for their next guess.
  $('.guess').on('click', function (){
         event.preventDefault();
         if (guessesLeft>0){ // if user has guesses left
@@ -46,36 +43,31 @@ $( document ).ready(function() {
 
             } else { // if this is a unique guess
 
-            //if (guesses.length>0){ // if this is not their first guess, add the previous guess to the previous guesses string
-              //previousGuesses+= guesses[guesses.length-1] +", ";
-            //}
 
-            guesses.push(currentGuess); // then add this current guess to the guesses array
+            guesses.push(currentGuess); // add this current guess to the guesses array
 
-            if (number == currentGuess){ // if the currentGuess matches the number, print a success message, ask them to replay and disable the Guess button.
-              console.log("SUCCESS!!!!!!");
-              hint="SUCCESS!!!!!!<br>Hit Replay to play again.";
+            if (number == currentGuess){ // if the currentGuess matches the number, print a success message, apply the success class to the help block, ask the user to replay and disable the Guess button.
+              hint="Congratulations! You are correct!<br>Hit <i>Replay</i> to play again.";
               updateHelpBlock();
               $('.help-block').addClass("success");
               $('.guess').prop("disabled", true);
             }
-            else { // if the guess doesn't match the number
+            else { // if the guess doesn't match the number, we need to provide hints for the next round
 
-              // calculate the difference between the guess and the number, and add it to the differencees array for future reference
+              // calculate the difference between the guess and the number
               guessDifference = Math.abs(currentGuess - number);
-              //differences.push(guessDifference);
 
               if (previousDifference!=null){ // if this is not the first guess, we need to indicate if the user's guesses are getting hotter or colder
                  // if the current guess difference is less than or equal to the previous guess difference, then the user is getting hotter
                  if (guessDifference<=previousDifference){
-                    tempHint+="<br> Based on your last guess, you are getting hotter.";
+                    progressHint+="<br> Based on your last guess, you are getting hotter.";
                  } else { // if the difference is more than the previous, then the user is getting colder. 
-                    tempHint+="<br> Based on your last guess, you are getting colder. ";
+                    progressHint+="<br> Based on your last guess, you are getting colder. ";
                  }
 
               }
 
-              // if the guessDifference is less than or equal to 10, then indicate that the user is hot.
+              // depending on what the guess difference is, display the appropriate message
               if (guessDifference <=10){
                 hint+="You are hot. "; 
               }
@@ -85,12 +77,12 @@ $( document ).ready(function() {
               else if (guessDifference < 30) {
                 hint+="You are cold. "
               }
-              else{ // if the guessDifference is more than 10, then indicate that the user is cold.
+              else{ 
                 hint+="You are ice cold. ";
               }
 
-              // if the currentGuess is less than the number, instruct the user to guess higher
-              if (currentGuess<number){
+              // provide a tip for the next guess depending on whether the guess is higher or lower than the number
+              if (currentGuess<number){ // if the currentGuess is less than the number, instruct the user to guess higher
                 hint +=" Guess higher.";
               }
               else{ // if the currentGuess is more than the number, instruct the user to guess lower
@@ -99,46 +91,55 @@ $( document ).ready(function() {
 
               guessesLeft--; // reduce the guessesLeft counter
 
-              // add the appropriate message to hint with the number of guesses left.
+              // add the appropriate message with the number of guesses left.
               if (guessesLeft==1){
                 hint += " You have 1 guess left.";
               } else if (guessesLeft>1){
                 hint += " You have " + guessesLeft + " guesses left.";
               } else {
-                hint = "Sorry, that's not correct and you're out of guesses. <br> The correct answer was " + number + ". Please hit Replay to play again."
+                hint = "Sorry, that's not correct and you're out of guesses. <br> The correct answer was " + number + ". Please hit <i>Replay</i> to play again."
                 $('.guess').prop("disabled", true);
               }
 
+              // store the current guess and difference into the previous guessess and difference variables for comparison and/or display in the next round
               previousDifference=guessDifference;
               previousGuesses+= currentGuess +", ";
 
               // if there are previous guesses and the user is not out of guesses, then display the previous guesses.
               if (guessesLeft!=0) {
-                  hint += tempHint;
                   hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2); // slice to drop the trailing comma
+                  hint += progressHint;
               }
 
-              console.log (hint + "You have " + guessesLeft + " guesse(s) left.");
+              // update the helpBlock to display the various hints
               updateHelpBlock();
+
+              // reset the input field so the user can enter their next guess
               $('#userGuess').val("1-100");
+
               }
             }
           }
-        } else { // user doesn't have any guesses left
-            hint += "Sorry, you're out of guesses. <br>Please hit Replay to play again."
+        } else { // user doesn't have any guesses left, display the below message in the help block
+            hint += "Sorry, you're out of guesses. <br>Please hit <i>Replay</i> to play again."
             updateHelpBlock();
       }
  });
 
+// eventHandler for the Hint button
 // if the user clicks the hint button, show the value of the number. 
  $('.hint').on('click', function(){
     event.preventDefault();
-    hint = "The number is: <br>" + number;
-    console.log(hint);
+    if (guessesLeft==5){
+      hint = "You need to guess at least once before we give you a hint! <br> Try again."
+    } else {
+      hint = "The number is: <br>" + number;
+    }
     updateHelpBlock();
 
  });
  
+ // eventHandler for the Replay button
  // if the user clicks on replay, generate a new number, set the guess button to active, reset all variables 
  $('.replay').on('click', function(){
     event.preventDefault();
