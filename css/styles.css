@@ -2,6 +2,14 @@
 /* Colour palette by http://www.colourlovers.com/lover/joy_of_summer/loveNote
 used under CC-BY-NC-SA*/
 
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
 /* ----- BODY ----- */
 body {
 	padding-top: 2%;
