@@ -106,12 +106,18 @@ footer a:hover, a:visited {
 
 /*---- MEDIA QUERIES ---- */
 
-@media (max-width: 600px) {
-  h1 {
+@media (max-width: 800px) {
+  /*h1 {
   	font-size: 2em;
   }
-  /*#userGuess {
+  #userGuess {
   	height: 60px;
   	font-size: 2em;
   }*/
+  .help-block {
+  	font-size: 2em;
+  }
+  .game-buttons{
+  	font-size: 2em;
+  }
 }
