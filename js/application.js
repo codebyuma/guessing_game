@@ -41,6 +41,7 @@ $( document ).ready(function() {
               hint = "You already tried that number. Try again."
               hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2); // slice to drop the trailing comma
               updateHelpBlock();
+              $('#userGuess').val("1-100");
 
             } else { // if this is a unique guess
 
