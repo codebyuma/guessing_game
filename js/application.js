@@ -11,6 +11,7 @@ $( document ).ready(function() {
  var hint =""; // string to be used for display in the help-block area
  var progressHint=""; // part of the string that will be added to hint for display in the help-block area
 
+//var hotIcon = '<span class="glyphicon glyphicon-fire"></span>';
 
 // function used to update the help-block area of the game board with hints, progress, previous guesses, etc.
  var updateHelpBlock = function (){
@@ -67,43 +68,48 @@ $( document ).ready(function() {
 
               }
 
-              // depending on what the guess difference is, display the appropriate message
+              // store the current guess difference in previousDifference for comparison purposes and hints later
+              previousDifference=guessDifference;
+              
+              // depending on what the guess difference is, display the appropriate message and store the icon with the current guess in the previousGuess string for display
               if (guessDifference <=10){
-                hint+="You are hot. "; 
+                hint+="You are hot <i class='fa fa-fire'></i><i class='fa fa-fire'></i>"; 
+                previousGuesses+= "<i class='fa fa-fire'></i>" + currentGuess +", ";
               }
               else if (guessDifference < 20){
-                hint+="You are warm. "
+                hint+="You are warm <i class='fa fa-fire'></i>";
+                previousGuesses+= "<i class='fa fa-fire'></i>" + currentGuess +", ";
               }
               else if (guessDifference < 30) {
-                hint+="You are cold. "
+                hint+="You are cold <i class='fa fa-cube'></i>";
+                previousGuesses+= "<i class='fa fa-cube'></i>" + currentGuess +", ";
               }
               else{ 
-                hint+="You are ice cold. ";
+                hint+="You are ice cold <i class='fa fa-cube'></i> <i class='fa fa-cube'></i>";
+                previousGuesses+= "<i class='fa fa-cube'></i>" + currentGuess +", ";
               }
 
               // provide a tip for the next guess depending on whether the guess is higher or lower than the number
               if (currentGuess<number){ // if the currentGuess is less than the number, instruct the user to guess higher
-                hint +=" Guess higher.";
+                hint +=" | Guess higher <i class='fa fa-arrow-up'></i>";
               }
               else{ // if the currentGuess is more than the number, instruct the user to guess lower
-                hint +=" Guess lower.";
+                hint +=" | Guess lower  <i class='fa fa-arrow-down'></i>";
               }
 
               guessesLeft--; // reduce the guessesLeft counter
 
               // add the appropriate message with the number of guesses left.
               if (guessesLeft==1){
-                hint += " You have 1 guess left.";
+                hint += "<br> You have 1 guess left.";
               } else if (guessesLeft>1){
-                hint += " You have " + guessesLeft + " guesses left.";
+                hint += "<br> You have " + guessesLeft + " guesses left.";
               } else {
                 hint = "Sorry, that's not correct and you're out of guesses. <br> The correct answer was " + number + ". Please hit <i>Replay</i> to play again."
                 $('.guess').prop("disabled", true);
               }
 
-              // store the current guess and difference into the previous guessess and difference variables for comparison and/or display in the next round
-              previousDifference=guessDifference;
-              previousGuesses+= currentGuess +", ";
+              //assign here
 
               // if there are previous guesses and the user is not out of guesses, then display the previous guesses.
               if (guessesLeft!=0) {
