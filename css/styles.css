@@ -14,7 +14,6 @@ body {
 
 h1 {
 	margin-top: 0px;
-	/*color: #F8F8F2;*/
 	color: #FFF;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 900;
@@ -36,7 +35,6 @@ h1 small {
 #maingame {
 	border: 2px dotted #AAADAD;
 	background-color: #3FB8AF;
-	/*#6F3662;*/
 	border-radius: 5px;
 	padding: 2%;
 }
@@ -47,7 +45,6 @@ h1 small {
 }
 
 .game-buttons {
-	/*background-color: #FFAE5D;*/
 	background-color: #FF9E9D;
 	color: #000;
 	border: 1px solid #FF9E9D;
@@ -60,12 +57,6 @@ h1 small {
 	color: #000;
 }
 
-/*
-.secondary-buttons-group {
-	padding-top: 5%;
-	display: inline-block;
-	float: right;
-}*/
 
 #userGuess {
 	height:  200px;
@@ -111,18 +102,12 @@ footer a:hover, a:visited {
 /*---- MEDIA QUERIES ---- */
 
 @media screen and (max-width: 1000px) {
-  /*h1 {
-  	font-size: 2em;
-  }
-  #userGuess {
-  	height: 60px;
-  	font-size: 2em;
-  }*/
+
   .help-block {
-  	font-size: 1.5em;
+  	font-size: 18px;
   }
   .game-buttons{
-  	font-size: 1.5em;
+  	font-size: 18px;
   }
 }
 

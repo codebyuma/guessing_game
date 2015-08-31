@@ -1,7 +1,7 @@
 
 $( document ).ready(function() {
- 
-  var number = Math.floor((Math.random() * 100) + 1); // this is the number the user needs to guess
+
+var number = Math.floor((Math.random() * 100) + 1); // this is the number the user needs to guess
  var guessesLeft=5; // counter of guesses - user gets 5 guesses
  var currentGuess; // user's current guess
  var guesses = []; // array to store user guesses for comparison purposes
@@ -11,19 +11,17 @@ $( document ).ready(function() {
  var hint =""; // string to be used for display in the help-block area
  var progressHint=""; // part of the string that will be added to hint for display in the help-block area
 
-//var hotIcon = '<span class="glyphicon glyphicon-fire"></span>';
-
 // function used to update the help-block area of the game board with hints, progress, previous guesses, etc.
- var updateHelpBlock = function (){
-    $('.help-block').html(hint);
-    hint="";
-    progressHint="";
- }
+var updateHelpBlock = function (){
+  $('.help-block').html(hint);
+  hint="";
+  progressHint="";
+}
 
 // eventHandler for the Guess button
 // when the user hits the submit button, process the guess and provide tips as necessary for their next guess.
- $('.guess').on('click', function (){
-        event.preventDefault();
+$('.guess').on('click', function (){
+  event.preventDefault();
         if (guessesLeft>0){ // if user has guesses left
 
           currentGuess=+$('#userGuess').val(); // read in the number the user entered and store in currentGuess
@@ -40,11 +38,10 @@ $( document ).ready(function() {
             if (guesses.length>0 && (guesses.indexOf(currentGuess)!=-1)){
               hint = "You already tried that number. Try again."
               hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2); // slice to drop the trailing comma
-              updateHelpBlock();
-              $('#userGuess').val("1-100");
+              updateHelpBlock(); // call function to update the help-block text
+              $('#userGuess').val("1-100"); // reset input field so user can enter new guess
 
             } else { // if this is a unique guess
-
 
             guesses.push(currentGuess); // add this current guess to the guesses array
 
@@ -61,11 +58,11 @@ $( document ).ready(function() {
 
               if (previousDifference!=null){ // if this is not the first guess, we need to indicate if the user's guesses are getting hotter or colder
                  // if the current guess difference is less than or equal to the previous guess difference, then the user is getting hotter
-                 if (guessDifference<=previousDifference){
-                    progressHint+="<br> Based on your last guess, you are getting hotter.";
-                 } else { // if the difference is more than the previous, then the user is getting colder. 
-                    progressHint+="<br> Based on your last guess, you are getting colder. ";
-                 }
+               if (guessDifference<=previousDifference){
+                progressHint+="<br> Based on your last guess, you are getting hotter.";
+                } else { // if the difference is more than the previous, then the user is getting colder. 
+                  progressHint+="<br> Based on your last guess, you are getting colder. ";
+                }
 
               }
 
@@ -110,58 +107,55 @@ $( document ).ready(function() {
                 $('.guess').prop("disabled", true);
               }
 
-              //assign here
-
               // if there are previous guesses and the user is not out of guesses, then display the previous guesses.
               if (guessesLeft!=0) {
                   hint += "<br> Your guesses so far: " + previousGuesses.slice(0,previousGuesses.length-2); // slice to drop the trailing comma
                   hint += progressHint;
-              }
+                }
 
-              // update the helpBlock to display the various hints
+              // update the help-block to display the various hints
               updateHelpBlock();
 
               // reset the input field so the user can enter their next guess
               $('#userGuess').val("1-100");
 
-              }
             }
           }
+        }
         } else { // user doesn't have any guesses left, display the below message in the help block
-            hint += "Sorry, you're out of guesses. <br>Please hit <i>Replay</i> to play again."
-            updateHelpBlock();
+        hint += "Sorry, you're out of guesses. <br>Please hit <i>Replay</i> to play again."
+        updateHelpBlock();
       }
- });
+});
 
 // eventHandler for the Hint button
 // if the user clicks the hint button, show the value of the number. 
- $('.hint').on('click', function(){
-    event.preventDefault();
-    if (guessesLeft==5){
-      hint = "You need to guess at least once before we give you a hint! <br> Try again."
-    } else {
-      hint = "The number is: <br>" + number;
-    }
-    updateHelpBlock();
+$('.hint').on('click', function(){
+  event.preventDefault();
+  if (guessesLeft==5){
+    hint = "You need to guess at least once before we give you a hint! <br> Try again."
+  } else {
+    hint = "The number is: <br>" + number;
+  }
+  updateHelpBlock();
 
- });
- 
+});
+
  // eventHandler for the Replay button
  // if the user clicks on replay, generate a new number, set the guess button to active, reset all variables 
  $('.replay').on('click', function(){
-    event.preventDefault();
-    $('.guess').prop("disabled", false);
-    number = Math.floor((Math.random() * 100) + 1);
-    guesses = [];
-    previousDifference = null;
-    guessesLeft=5;
-    previousGuesses="";
-    $('#userGuess').val("1-100");
-    console.log("new number " + number);
-    hint = "Enter a number between 1 and 100. <br> You have 5 guesses left.";
-    updateHelpBlock();
-    $('.help-block').removeClass("success");
- });
+  event.preventDefault();
+  $('.guess').prop("disabled", false);
+  number = Math.floor((Math.random() * 100) + 1);
+  guesses = [];
+  previousDifference = null;
+  guessesLeft=5;
+  previousGuesses="";
+  $('#userGuess').val("1-100");
+  hint = "Enter a number between 1 and 100. <br> You have 5 guesses left.";
+  updateHelpBlock();
+  $('.help-block').removeClass("success");
+  });
  
 
 });
