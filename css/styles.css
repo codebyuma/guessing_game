@@ -110,7 +110,7 @@ footer a:hover, a:visited {
 
 /*---- MEDIA QUERIES ---- */
 
-@media (max-width: 1000px) {
+@media screen and (max-width: 768px) {
   /*h1 {
   	font-size: 2em;
   }
@@ -119,9 +119,11 @@ footer a:hover, a:visited {
   	font-size: 2em;
   }*/
   .help-block {
-  	font-size: 2em;
+  	font-size: 1.5em;
   }
   .game-buttons{
-  	font-size: 2em;
+  	font-size: 1.5em;
   }
 }
+
+
