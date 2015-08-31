@@ -2,13 +2,6 @@
 /* Colour palette by http://www.colourlovers.com/lover/joy_of_summer/loveNote
 used under CC-BY-NC-SA*/
 
-html {
-  box-sizing: border-box;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
 
 /* ----- BODY ----- */
 body {
@@ -109,4 +102,16 @@ footer a:hover, a:visited {
 
 #credit {
 	text-align: right;
+}
+
+/*---- MEDIA QUERIES ---- */
+
+@media (max-width: 600px) {
+  h1 {
+  	font-size: 2em;
+  }
+  #userGuess {
+  	height: 60px;
+  	font-size: 2em;
+  }
 }
